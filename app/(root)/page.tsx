@@ -1,9 +1,45 @@
+import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import InterviewCard from "@/components/InterviewCard";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>Welcome to Fanikiwa</h1>
-    </div>
+    <>
+    <section className="card-cta">
+      <div className="flex flex-col gap-6 max-w-lg">
+      <h2>Master your interview with AI-Powered practice</h2>
+      <p>Sharpen your skills with Fanikiwa real-world interview questions and receive instant, actionable feedback.</p>
+
+      <Button asChild className="btn-primary max-sm:w-full">
+        <Link href="/interview">Start an interview</Link>
+        </Button>
+      </div>
+      <Image 
+        src="/images/robot.png" 
+        alt="AI Interview" 
+        width={500} 
+        height={500} 
+        className="max-sm:hidden"
+      />
+    </section>
+
+    <section className="flex flex-col gap-6 mt-8">
+        <h2>Your Interviews</h2>
+        
+        <div className="interviews-section">
+            <InterviewCard />
+        </div>
+    </section>
+
+    <section className="flex flex-col gap-6 mt-8">
+      <h2>Take Interview</h2>
+
+      <div className="interviews-section">
+        <InterviewCard />
+      </div>
+    </section>
+
+    </>
   );
 }
