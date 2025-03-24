@@ -72,7 +72,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 email,
                 idToken
             });
-            toast.success(`Welcome back, ${userCredential.user.displayName}`);
+            toast.success(`Welcome back!`);
             router.push("/");
         }
         } catch (error) {
