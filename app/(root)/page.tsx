@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import InterviewCard from "@/components/InterviewCard";
+import { dummyInterviews } from "@/constants";
 
 export default function Home() {
   return (
@@ -28,7 +29,9 @@ export default function Home() {
         <h2>Your Interviews</h2>
         
         <div className="interviews-section">
-            <InterviewCard />
+            {dummyInterviews.map((interview) => (
+              <InterviewCard key={interview.interviewId} {...interview} />
+            ))}
         </div>
     </section>
 
@@ -36,7 +39,12 @@ export default function Home() {
       <h2>Take Interview</h2>
 
       <div className="interviews-section">
-        <InterviewCard />
+        {dummyInterviews.map((interview) => (
+          <InterviewCard 
+            key={interview.interviewId} 
+            {...interview}
+          />
+        ))}
       </div>
     </section>
 

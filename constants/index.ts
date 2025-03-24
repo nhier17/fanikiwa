@@ -203,3 +203,30 @@ export const interviewCovers = [
   "/tiktok.png",
   "/yahoo.png",
 ];
+
+export const dummyInterviews: InterviewCardProps[] = [
+  {
+    interviewId: "1",
+    userId: "101",
+    role: "Frontend Developer",
+    type: "Technical",
+    techstack: ["React", "Next.js", "TypeScript"],
+    createdAt: "2023-08-01",
+  },
+  {
+    interviewId: "2",
+    userId: "102",
+    role: "Backend Developer",
+    type: "Behavioral",
+    techstack: ["Node.js", "Express", "MongoDB"],
+    createdAt: "2023-08-05",
+  },
+  {
+    interviewId: "3",
+    userId: "103",
+    role: "Full Stack Engineer",
+    type: "System Design",
+    techstack: ["Vue", "Nuxt", "PostgreSQL"],
+    createdAt: "2023-08-10",
+  },
+];
