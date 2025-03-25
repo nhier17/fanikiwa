@@ -9,7 +9,6 @@ const Interview = async () => {
       <Agents 
       userName={user?.name!}
       userId={user?.id}
-      profileImage={user?.profileURL}
       type="generate"
       />
     </div>

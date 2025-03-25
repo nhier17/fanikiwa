@@ -2,9 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import InterviewCard from "@/components/InterviewCard";
-import { dummyInterviews } from "@/constants";
+import { getCurrentUser } from "@/lib/actions/auth.action";
+import { getInterviewByUserId, getLatestInterviews } from "@/lib/actions/interview.action";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+
+  const [userInterviews, latestInterviews] = await Promise.all([
+    getInterviewByUserId(user?.id!),
+    getLatestInterviews({ userId: user?.id! })
+  ]);
+
+  const hasPastInterviews = userInterviews?.length! > 0;
+  const hasUpcomingInterviews = latestInterviews?.length! > 0;
+
   return (
     <>
     <section className="card-cta">
@@ -29,9 +40,16 @@ export default function Home() {
         <h2>Your Interviews</h2>
         
         <div className="interviews-section">
-            {dummyInterviews.map((interview) => (
-              <InterviewCard key={interview.interviewId} {...interview} />
-            ))}
+            {hasPastInterviews ? (
+              userInterviews?.map((interview) => (
+                <InterviewCard 
+                  key={interview.id} 
+                  {...interview}
+                />
+              ))
+            ) : (
+              <p>You haven't taken any interviews yet.</p>
+            )}
         </div>
     </section>
 
@@ -39,12 +57,16 @@ export default function Home() {
       <h2>Take Interview</h2>
 
       <div className="interviews-section">
-        {dummyInterviews.map((interview) => (
-          <InterviewCard 
-            key={interview.interviewId} 
-            {...interview}
-          />
-        ))}
+        {hasUpcomingInterviews ? (
+          latestInterviews?.map((interview) => (
+            <InterviewCard 
+              key={interview.id} 
+              {...interview}
+            />
+          ))
+        ) : (
+          <p>No upcoming interviews available.</p>
+        )}
       </div>
     </section>
 
