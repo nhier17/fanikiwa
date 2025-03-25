@@ -60,7 +60,7 @@ export async function createFeedback(params: CreateFeedbackParams) {
       )
       .join("");
 
-      const { object } = await generateObject({
+      const { object:{ totalScore, categoryScores, strengths, areasForImprovement, finalAssessment } } = await generateObject({
         model: google("gemini-2.0-flash-001", {
           structuredOutputs: false,
         }),
@@ -81,18 +81,72 @@ export async function createFeedback(params: CreateFeedbackParams) {
           "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
       });
 
-      const feedback = {
-        id: feedbackId,
+      const feedback = await db.collection("feedback").add({
         userId,
         interviewId,
-        ...object
-      };
+        totalScore,
+        categoryScores,
+        strengths,
+        areasForImprovement,
+        finalAssessment,
+        createdAt: new Date().toISOString(),
+      });       
 
-      await db
-        .collection("feedbacks")
-        .doc(feedbackId)
-        .set(feedback);
+      return {
+        success: true,
+        feedbackId: feedback.id
+      }
+  
     } catch (error) {
-        
+        console.error("Error creating feedback:", error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "An unknown error occurred"
+        }
     }
 };
+
+export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdParams): Promise<Feedback | null> {
+const { interviewId, userId } = params;
+const querySnapshot = await db
+    .collection("feedback")
+    .where("interviewId", "==", interviewId)
+    .where("userId", "==", userId)
+    .limit(1)
+    .get();
+
+    if (querySnapshot.empty) {
+        return null;
+    }
+
+    const feebackDoc = querySnapshot.docs[0];
+    return { id: feebackDoc.id, ...feebackDoc.data()} as Feedback;    
+}
+
+//retake interview
+export async function retakeInterview(params: { interviewId: string; userId: string }): Promise<{ success: boolean; newInterviewId: string }> {
+    try {
+        const originalInterview = await getInterviewById(params.interviewId);
+        
+        if (!originalInterview) {
+            throw new Error("Original interview not found");
+        }
+
+        // Create a new interview with the same parameters but reset the conversation
+        const newInterview = await db.collection("interviews").add({
+            ...originalInterview,
+            userId: params.userId,
+            createdAt: new Date().toISOString(),
+            finalized: false,
+            conversation: [], // Reset conversation
+        });
+
+        return {
+            success: true,
+            newInterviewId: newInterview.id
+        };
+    } catch (error) {
+        console.error("Error retaking interview:", error);
+        throw error;
+    }
+}

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { interviewer } from "@/constants";
 import { useRouter } from "next/navigation";
 import { vapi } from "@/lib/vapi.sdk";
+import { createFeedback } from "@/lib/actions/interview.action";
 
 enum CallStatus {
     INACTIVE = "INACTIVE",
@@ -73,11 +74,22 @@ const Agents = ({
   },[]);
 
   useEffect(() => {
-    //if(messages.length > 0) {
-    //  setLastMessage(messages[messages.length - 1].content);
-    //}
+    if(messages.length > 0) {
+      setLastMessage(messages[messages.length - 1].content);
+    }
+
     const handleGenerateFeedbaack = async (messages: SavedMessage[]) => {
-      
+      const { success, feedbackId: id } = await createFeedback({
+        interviewId: interviewId!,
+        userId: userId!,
+        transcript: messages,
+      });
+
+      if (success && id) {
+        router.push(`/interview/${interviewId}/feedback`);
+      } else {
+        router.push("/")
+      }
     };
     
     if(callStatus === CallStatus.FINISHED){
