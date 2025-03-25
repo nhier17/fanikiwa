@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dayjs from "dayjs";
-import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { interviewer } from "@/constants";
@@ -99,7 +97,7 @@ const Agents = ({
         handleGenerateFeedbaack(messages);
       }
     }
-  },[messages, callStatus, type, userId]);
+  },[messages, callStatus, type, userId, interviewId, router]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
@@ -155,13 +153,9 @@ const Agents = ({
 
       <div className="card-border">
         <div className="card-content">
-          <Image 
-            src="/images/user-avatar.png"
-            alt="Avatar"
-            width={540}
-            height={540}
-            className="object-cover rounded-full size-[120px]"
-          />
+        <div className="avatar-placeholder rounded-full size-[120px] flex items-center justify-center bg-amber-100 text-dark-100 text-4xl font-bold">
+          {userName?.slice(0, 2).toUpperCase()}
+        </div>
           <h3>{userName}</h3>
         </div>
       </div>
