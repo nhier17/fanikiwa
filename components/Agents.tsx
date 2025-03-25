@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import Link from "next/link";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { interviewer } from "@/constants";
 import { useRouter } from "next/navigation";
 import { vapi } from "@/lib/vapi.sdk";
 
@@ -25,7 +24,9 @@ interface SavedMessage {
 const Agents = ({
     userName,
     userId,
-    type
+    type,
+    interviewId,
+    questions
 }: AgentProps) => {
   const router = useRouter();
   const [messages, setMessages] = useState<SavedMessage[]>([]);
@@ -75,17 +76,43 @@ const Agents = ({
     //if(messages.length > 0) {
     //  setLastMessage(messages[messages.length - 1].content);
     //}
-    if(callStatus === CallStatus.FINISHED) router.push("/");
+    const handleGenerateFeedbaack = async (messages: SavedMessage[]) => {
+      
+    };
+    
+    if(callStatus === CallStatus.FINISHED){
+      if(type === "generate") {
+        router.push("/")
+      } else {
+        handleGenerateFeedbaack(messages);
+      }
+    }
   },[messages, callStatus, type, userId]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
-    await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-      variableValues: {
-        username: userName,
-        userid: userId,
-      }
-    });
+
+    if (type === "generate") {
+      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+        variableValues: {
+          username: userName,
+          userid: userId,
+        },
+      });
+    } else {
+      let formattedQuestions = "";
+      if (questions) {
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
+      };
+
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+      });
+    } 
   }
 
   const handleDisconnect = async () => {

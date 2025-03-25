@@ -11,7 +11,7 @@ const InterviewCard = async({
   type,
   techstack,
   createdAt,
-  interviewId
+  id
 }: InterviewCardProps) => {
 
     const feedback = null as Feedback | null;
@@ -86,8 +86,8 @@ const InterviewCard = async({
               <Link
                  href={
                     feedback 
-                    ?  `/interview/${interviewId}/feedback`
-                    : `/interview/${interviewId}`
+                    ?  `/interview/${id}/feedback`
+                    : `/interview/${id}`
                  }
               >
               {feedback ? "Check Feedback" : "View Interview"}
