@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="/assets/images/fanikiwa-banner.png" alt="Fanikiwa Banner" />
+  <img src="https://github.com/nhier17/fanikiwa/blob/main/public/images/banner.png" alt="Fanikiwa Banner" />
   <br />
   <div>
     <img src="https://img.shields.io/badge/-Next.js-black?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
@@ -78,3 +78,46 @@ Ensure you have the following installed:
 ```bash
 git clone https://github.com/yourusername/fanikiwa.git
 cd fanikiwa
+```
+### **Install dependencies**
+
+```
+bun install
+# OR
+npm install
+```
+### **Cloning the Repository**
+Create .env.local file 
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+NEXT_PUBLIC_VAPI_API_KEY=your_vapi_api_key
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+```
+
+## 🔑 Get Your Credentials  
+
+To integrate the platform seamlessly, set up projects and obtain the necessary credentials from the following services:
+
+- 📊 **[Firebase Console](https://console.firebase.google.com/)**: For user authentication and database services.  
+- 🗣️ **[Vapi](https://www.vapi.ai/)**: For real-time AI voice agent integration.  
+- 🤖 **[Gemini API](https://ai.google.dev/)**: For leveraging advanced AI capabilities in your interviews.  
+
+Ensure you add these credentials to your `.env.local` file for secure access.
+
+
+## 📬 Contact  
+
+👤 **Abraham Nhier**  
+📧 **Email:** [abrahamnhier97@gmail.com](mailto:abrahamnhier97@gmail.com)  
+🔗 **LinkedIn:** [nhier](https://www.linkedin.com/in/nhier/)  
+🌍 **Portfolio:** [abraham-nhier.netlify.app](https://abrahamnhier.vercel.app)  
+
+
+ ## LICENSE: [MIT License](link-to-license-file).
+
+<div align="center"> ⭐️ If you find **Fanikiwa** useful, consider giving it a star on GitHub! ⭐️ </div>
