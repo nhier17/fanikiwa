@@ -72,9 +72,6 @@ const Agents = ({
   },[]);
 
   useEffect(() => {
-    if(messages.length > 0) {
-      setLastMessage(messages[messages.length - 1].content);
-    }
 
     const handleGenerateFeedbaack = async (messages: SavedMessage[]) => {
       const { success, feedbackId: id } = await createFeedback({

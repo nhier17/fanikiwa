@@ -4,7 +4,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation"; 
 import { isAuthenticated,signOut } from "@/lib/actions/auth.action";
 import { LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 
 
 export default async function RootLayout({
